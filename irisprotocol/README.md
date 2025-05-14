@@ -1,58 +1,33 @@
-# 🧠 IRIS Protocol
+# 🛡️ IRIS Protocol Frontend
 
-**AI-Powered Risk Engine for Solana DeFi**  
-Detect wallet risk in real time. Protect assets autonomously. Build with confidence.
-
----
-
-## 🚀 Overview
-
-**IRIS** is a decentralized, non-custodial AI protocol designed to assess portfolio risk, score tokens and wallets, and automatically protect digital assets using real-time on-chain signals. Built on the Solana blockchain, IRIS gives DeFi users peace of mind through:
-
-- Dynamic **risk scoring**
-- **Auto-swap** actions to reduce exposure
-- **Insurance NFTs** for on-chain coverage
-- Open **SDK & API** for integrations
-- Full **wallet ownership and privacy**
+**IRIS** is a decentralized risk intelligence protocol that provides real-time risk scoring, wallet protection automation, and on-chain insurance for DeFi users. This is the frontend interface of the IRIS ecosystem, built to seamlessly interact with Solana-based wallets and the IRIS backend risk engine.
 
 ---
 
-## 🔐 Why IRIS?
+## 🚀 Project Overview
 
-DeFi is volatile. Rugpulls, flash crashes, whale dumps, and liquidity drains happen every day.
+The IRIS frontend is a responsive, secure, and scalable dApp interface enabling users to:
 
-**IRIS gives you:**
-
-- 🧠 Smart AI models that assess risk across your wallet and assets
-- 🔄 Auto-protective actions (like swaps or alerts) based on thresholds *you* control
-- 🛡️ Claimable Insurance NFTs to cover losses for approved events
-- ⚙️ Developer tools to embed risk-scoring into dApps and wallets
-
----
-
-## 📊 Features
-
-- **Real-Time Risk Engine**: Uses live token data, volatility, slippage, volume, whale behavior, and oracles.
-- **Threshold-Based Actions**: Auto-swaps or alerts based on user-configured limits.
-- **Insurance NFTs**: Tiered coverage with on-chain, transparent claims.
-- **Non-Custodial**: You retain full wallet control. No key access or off-chain tracking.
-- **Open Protocol**: Available SDK and REST API for dApps and wallet providers.
+* Connect their Solana wallet via **Civic Auth-Web3**
+* View dynamic risk scores of tokens in their portfolio
+* Configure automated protections like token swaps and claims
+* Purchase and manage on-chain Insurance NFTs
+* Track wallet analytics and coverage history in real time
 
 ---
 
-## 📦 Tech Stack
+## 🧰 Tech Stack
 
-| Layer        | Tool / Tech         |
-| ------------ | ------------------- |
-| **Blockchain** | Solana, SPL Tokens   |
-| **Smart Contracts** | Anchor, Rust         |
-| **AI & Risk Models** | Custom ML models (Python + JS), real-time feeds |
-| **Front-end** | Next.js, TailwindCSS |
-| **Wallets** | Phantom, Backpack, Ledger, Solflare |
-| **Storage** | IPFS, Supabase       |
+* **Framework**: Next.js 14 (App Router)
+* **Styling**: TailwindCSS + ShadCN/UI
+* **Wallet Integration**: Civic Auth-Web3 (Solana)
+* **State Management**: Zustand + Context API
+* **Data Storage**: Supabase (for off-chain metadata, UI settings)
+* **API Layer**: REST API to interact with the Risk Engine backend
+* **Charts**: Recharts for real-time token analytics
+* **Deployment**: Vercel (Preview & Production)
 
 ---
-
 ## 🔐 Civic Auth + Supabase Integration
 
 This project uses [Civic Web3 Auth](https://www.civic.com/) for decentralized authentication and [Supabase](https://supabase.com/) for backend services like storage and database. Here's how the integration works:
@@ -111,58 +86,86 @@ The app uses a custom React Context (`AuthContext`) to:
 * **Decentralized identity**: You don’t store sensitive user credentials.
 * **Extendable**: Add logic for user roles, permissions, and more using `civic_id`.
 
+
+---
+
+## 👨‍💻 Core Team
+
+| Name                  | Role               | Responsibility                                                      |
+| --------------------- | ------------------ | ------------------------------------------------------------------- |
+| **Enoch Philip**      | Founder & Lead Dev | Fullstack, Smart Contract Logic, Frontend & Risk Engine Integration |
+| **Dalha Lawan Dalha** | UI/UX Designer     | Design system, branding, user flows                                 |
+| **Dauda Habila**      | Content Manager    | Documentation, FAQs, blog, and legal text                           |
+
+---
+
+## 🔒 Key Features
+
+* 🔐 **Non-Custodial Architecture** – Users retain control of private keys; IRIS never stores funds.
+* 🧠 **Risk-Aware AI UX** – Wallet scoring and token risk analysis in an intuitive dashboard.
+* 📜 **Insurance NFT Management** – Tiered, auto-verifiable on-chain insurance tokens.
+* 📈 **Live DeFi Risk Tracking** – Real-time monitoring using Oracles and custom logic.
+* 🌐 **Solana Ecosystem Compatibility** – Optimized for Phantom, Backpack, and other SPL-native wallets.
+
+---
+
+## 📦 Folder Structure
+
+```
+/app            - App Router structure (Next.js)
+/components     - Reusable UI components
+/hooks          - Custom React hooks
+/lib            - Utility functions and API clients
+/store          - Zustand state management
+/styles         - Tailwind and global styles
+/public         - Static assets and logos
+```
+
 ---
 
 ## 🧪 Current Status
 
-> **Closed Testing Phase**  
+> **Closed Testing Phase**
 We’re currently testing the AIRX engine and UI. Smart contract deployment on Solana begins next.
 
-✅ UI built  
-✅ Quality integration complete  
-✅ Waitlist launched  
-🧪 Risk engine testing in progress  
+✅ UI built
+✅ Quality integration complete
+✅ Waitlist launched
+🧪 Risk engine testing in progress
 🔜 Solana contracts coming soon
 
 ---
 
-## 🧬 Team
+## 📄 Environment Variables
 
-- **Lead Developer / CEO** – Full-stack blockchain engineer and AI researcher.
-- **Blockchain Developer** – Smart contracts, Solana-native, protocol architecture.
-- **Graphic Designer** – Branding, UI/UX, NFTs, and marketing visuals.
-- **Content Manager** – Writes documentation, campaigns, and community content.
+Ensure the following variables are set in your `.env.local` file:
 
-> Backed by technical experience in DeFi, AI, and real-time analytics.
-
----
-
-## 💰 Use of Funds
-
-Funds will be allocated across:
-
-- **Engineering** – Smart contract audits, infrastructure, AI model hosting
-- **Product** – UI polish, insurance NFT contract deployment
-- **Marketing** – DeFi community partnerships, bounty campaigns, influencer outreach
-- **Sales & Growth** – Developer relations, API partners, support team onboarding
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+RESEND_API_KEY=
+```
 
 ---
 
-## 📄 License
+## 🧪 Running Locally
 
-MIT License.  
-Feel free to audit, fork, and contribute to the IRIS Protocol.
+```bash
+git clone https://github.com/arhyel24/iris-protocol.git
+cd frontend
+npm install
+npm run dev
+```
 
----
-
-## 🌐 Links
-
-- 📘 [Whitepaper](https://yourdomain.com/whitepaper)
-- 🧠 [Docs](https://yourdomain.com/docs)
-- ⛓️ [Smart Contracts](https://github.com/iris-protocol/contracts)
-- 📣 [Twitter](https://twitter.com/irisprotocol)
-- 💬 [Discord](https://discord.gg/your-invite-code)
+Then visit: `http://localhost:3000`
 
 ---
 
-> IRIS is designed to help you stay safe in DeFi—without giving up control.
+## 📦 Build & Deploy
+
+```bash
+npm run build
+npm run start
+```
+
+Deployment is handled through [Vercel](https://vercel.com).

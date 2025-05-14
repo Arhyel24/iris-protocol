@@ -1,0 +1,52 @@
+MIT License
+
+Copyright (c) 2025 IRIS Protocol
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the “Software”), to deal
+in the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+1. Attribution:
+   The above copyright notice and this permission notice shall be included in all
+   copies or substantial portions of the Software.
+
+2. Disclaimer of Warranty:
+   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+   OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
+   NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+   HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY,
+   WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING
+   FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+   OTHER DEALINGS IN THE SOFTWARE.
+
+3. Limitation of Liability:
+   IRIS Protocol and its contributors shall not be held responsible for any direct,
+   indirect, incidental, special, exemplary, or consequential damages resulting from
+   the use or misuse of this software in any form, including but not limited to smart
+   contract vulnerabilities, AI decisions, or protocol integrations.
+
+4. Non-Custodial Acknowledgement:
+   This software is intended for non-custodial use. IRIS does not take custody of
+   user funds, private keys, or assets. All actions must be user-approved.
+
+5. Use with Blockchain Technology:
+   The Software interacts with decentralized technologies such as Solana, smart contracts,
+   and third-party APIs. Use of this software implies understanding of the risks associated
+   with decentralized financial systems.
+
+6. Contribution Agreement:
+   By contributing to this repository, you agree that your contributions will be licensed
+   under the same MIT License and you have the right to license them.
+
+7. Third-Party Code:
+   This software may include dependencies subject to their own licenses. Please consult
+   the respective LICENSE files in the `node_modules` or dependency directories.
+
+---
+
+For questions, reach out to the maintainers at: [contact@irisprotocol.io](mailto:contact@irisprotocol.io)
+

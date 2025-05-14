@@ -68,7 +68,7 @@ We’re currently testing the AIRX engine and UI. Smart contract deployment on S
 
 ## 🧬 Team
 
-- **Lead Developer / CEO** – Full-stack blockchain engineer and AI researcher.
+- **Lead Developer / CEO** – Full-stack developer and AI researcher.
 - **Graphic Designer** – Branding, UI/UX, NFTs, and marketing visuals.
 - **Content Manager** – Writes documentation, campaigns, and community content.
 
@@ -96,11 +96,11 @@ Feel free to audit, fork, and contribute to the IRIS Protocol.
 
 ## 🌐 Links
 
-- 📘 [Whitepaper](https://yourdomain.com/whitepaper)
+<!-- - 📘 [Whitepaper](https://yourdomain.com/whitepaper)
 - 🧠 [Docs](https://yourdomain.com/docs)
-- ⛓️ [Smart Contracts](https://github.com/iris-protocol/contracts)
+- ⛓️ [Smart Contracts](https://github.com/iris-protocol/contracts) -->
 - 📣 [Twitter](https://twitter.com/irisprotocol)
-- 💬 [Discord](https://discord.gg/your-invite-code)
+<!-- - 💬 [Discord](https://discord.gg/your-invite-code) -->
 
 ---
 
