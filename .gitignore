@@ -1,0 +1,71 @@
+# =====================
+# Global ignores
+# =====================
+node_modules/
+dist/
+.DS_Store
+.env
+.env.*
+*.log
+*.pyc
+__pycache__/
+*.swp
+
+# =====================
+# Next.js (e.g., frontend/)
+# =====================
+frontend/.next/
+frontend/out/
+frontend/node_modules/
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# =====================
+# Next.js (e.g., waitlist/)
+# =====================
+waitlist/.next/
+waitlist/out/
+waitlist/node_modules/
+waitlist/.env.local
+waitlist/.env.development.local
+waitlist/.env.test.local
+waitlist/.env.production.local
+
+# =====================
+# Anchor (e.g., anchor/)
+# =====================
+anchor/target/
+anchor/.anchor/
+anchor/node_modules/
+anchor/.env
+
+# =====================
+# Flask (e.g., backend/)
+# =====================
+backend/__pycache__/
+backend/instance/
+backend/.env
+backend/env/
+backend/venv/
+backend/*.pyc
+backend/*.pyo
+backend/*.pyd
+backend/*.db
+backend/.mypy_cache/
+backend/.pytest_cache/
+
+# =====================
+# VSCode
+# =====================
+.vscode/
+
+# =====================
+# OS & Editor Files
+# =====================
+Thumbs.db
+ehthumbs.db
+.idea/
+*.sublime-workspace
+*.sublime-project
