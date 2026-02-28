@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { useEffect } from "react"
+import { useEffect } from 'react'
 import { Header } from '@/components/home/Header'
 import { HeroSection } from '@/components/home/HeroSection'
 import { FeatureSection } from '@/components/home/FeatureSection'
@@ -20,7 +20,7 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-[#1A1F2C] text-white font-inter">
+    <div className="min-h-screen bg-black text-white font-mono">
       <Header />
       <HeroSection />
       <FeatureSection />

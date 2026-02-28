@@ -1,63 +1,68 @@
-
 import React from "react";
-import { Badge, Shield, ArrowLeftRight, GitBranch } from "lucide-react";
+import { Plane, Smartphone, HeartPulse, ShieldAlert } from "lucide-react";
 
 const FeatureCard: React.FC<{
   icon: React.ReactNode;
   title: string;
   description: string;
-}> = ({ icon, title, description }) => {
+  number: string;
+}> = ({ icon, title, description, number }) => {
   return (
-    <div className="glass-card glass-card-glow p-6 md:p-8 h-full bg-opacity-80">
-      <div className="bg-gradient-to-br from-iris-purple-light/20 to-iris-blue-light/20 rounded-xl p-3 w-12 h-12 flex items-center justify-center mb-6">
+    <div className="group relative bg-black border border-white/10 p-8 hover:border-primary transition-colors duration-300">
+      <div className="absolute top-0 right-0 p-4 text-4xl font-black text-white/5 font-mono group-hover:text-primary/10 transition-colors duration-300">
+        {number}
+      </div>
+      <div className="w-12 h-12 border border-primary/30 flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-black transition-colors duration-300">
         {icon}
       </div>
-      <h3 className="font-orbitron text-xl font-semibold mb-3 text-white">
+      <h3 className="font-mono text-xl font-bold mb-3 text-white uppercase tracking-wider">
         {title}
       </h3>
-      <p className="text-muted-foreground">{description}</p>
+      <p className="text-muted-foreground font-mono text-sm leading-relaxed">
+        {description}
+      </p>
     </div>
   );
 };
 
 const Features: React.FC = () => {
   return (
-    <div className="py-20 bg-iris-darker">
+    <div className="py-24 bg-black border-b border-white/10">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="font-orbitron text-3xl md:text-4xl font-bold mb-4">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-iris-purple to-iris-blue">
-              Intelligent Protection
-            </span>
+        <div className="mb-16 border-l-4 border-primary pl-6">
+          <h2 className="font-mono text-3xl md:text-5xl font-black mb-4 text-white uppercase tracking-tighter">
+            Global Coverage.<br />
+            On-Chain Execution.
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            IRIS combines advanced AI monitoring with automated DeFi strategies to provide comprehensive protection for your digital assets.
+          <p className="text-muted-foreground font-mono text-lg max-w-2xl">
+            We bridge the gap between traditional insurance APIs and decentralized finance, providing instant, programmatic payouts.
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <FeatureCard 
-            icon={<Badge className="h-6 w-6 text-iris-purple" />}
-            title="Risk Score AI"
-            description="Real-time AI analysis of your portfolio, continuously calculating risk scores for each asset and your overall position."
+          <FeatureCard
+            number="01"
+            icon={<Plane className="h-6 w-6" strokeWidth={1.5} />}
+            title="Flight Delay"
+            description="Automatically triggered payouts when commercial flights are delayed or canceled, utilizing global oracle feeds."
           />
-          
-          <FeatureCard 
-            icon={<ArrowLeftRight className="h-6 w-6 text-iris-blue" />}
-            title="Auto Swaps"
-            description="Automatically convert high-risk assets to stablecoins when dangerous market conditions are detected."
+          <FeatureCard
+            number="02"
+            icon={<Smartphone className="h-6 w-6" strokeWidth={1.5} />}
+            title="Gadget Cover"
+            description="Protect your high-value electronics. File a claim with the Web2 API and receive USDC directly to your wallet."
           />
-          
-          <FeatureCard 
-            icon={<Shield className="h-6 w-6 text-iris-green" />}
-            title="NFT Insurance"
-            description="Mint insurance NFTs that guarantee coverage for losses and serve as your protection certificate."
+          <FeatureCard
+            number="03"
+            icon={<HeartPulse className="h-6 w-6" strokeWidth={1.5} />}
+            title="Travel Health"
+            description="Global medical coverage that pays out in stablecoins, bypassing traditional banking delays and international wire fees."
           />
-          
-          <FeatureCard 
-            icon={<GitBranch className="h-6 w-6 text-iris-purple-light" />}
-            title="DAO Governance"
-            description="Community-owned protocol where token holders vote on platform parameters and insurance payouts."
+          <FeatureCard
+            number="04"
+            icon={<ShieldAlert className="h-6 w-6" strokeWidth={1.5} />}
+            title="Developer API"
+            description="Embed our crypto-fiat insurance bridge directly into your own dApps with our headless SDK."
           />
         </div>
       </div>

@@ -1,56 +1,106 @@
 import { WaitlistForm } from '@/components/home/WaitlistForm'
 import { motion } from 'framer-motion'
 
+const perks = [
+  'Priority onboarding when we launch',
+  'Exclusive NFT insurance tier for early users',
+  'Access to experimental risk-detection models',
+  'IRIS OG badge',
+]
+
 export const CtaSection = () => {
   return (
-    <section className="py-20 relative overflow-hidden" id="waitlist-form">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#8B5CF6]/20 to-[#1EAEDB]/20 z-0"></div>
-      <div className="absolute -top-[50%] -left-[30%] w-[60%] h-[100%] bg-[#8B5CF6]/10 rounded-full blur-[120px] z-0"></div>
-      <div className="absolute -bottom-[50%] -right-[30%] w-[60%] h-[100%] bg-[#1EAEDB]/10 rounded-full blur-[120px] z-0"></div>
+    <section className="relative bg-black border-b border-white/10 py-24 overflow-hidden" id="waitlist-form">
+      {/* Grid overlay */}
+      <div
+        className="absolute inset-0 z-0 opacity-[0.05]"
+        style={{
+          backgroundImage: `linear-gradient(to right, #00FFA3 1px, transparent 1px), linear-gradient(to bottom, #00FFA3 1px, transparent 1px)`,
+          backgroundSize: '40px 40px',
+        }}
+      />
+
+      {/* Subtle glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[1px] bg-[#00FFA3]/40" />
+
       <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-3xl mx-auto text-center">
+        {/* Section label */}
+        <div className="flex items-center justify-center gap-4 mb-16">
+          <div className="flex-1 h-px bg-white/10" />
+          <span className="font-mono text-[10px] text-[#00FFA3] uppercase tracking-widest border border-[#00FFA3] px-2 py-1">
+            [ EARLY_ACCESS ]
+          </span>
+          <div className="flex-1 h-px bg-white/10" />
+        </div>
+
+        <div className="max-w-3xl mx-auto">
           <motion.h2
-            className="font-space text-3xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent"
+            className="font-mono text-4xl md:text-6xl font-black uppercase tracking-tighter text-white text-center mb-4 leading-[0.9]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.6 }}
           >
-            Protect Your Portfolio Now
+            Protect Your
+            <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00FFA3] to-[#0088FF]">
+              Portfolio Now.
+            </span>
           </motion.h2>
-          <motion.div
-            className="flex flex-col items-center justify-center mb-8"
+
+          <motion.p
+            className="font-mono text-xs text-white/40 uppercase tracking-widest text-center mb-12"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <p className="text-xl text-white/80 mb-4">
-              <span className="font-inter text-white/70">🔐 Early Access Perks:</span>
-            </p>
-            <ul className="text-white/80 text-left space-y-2 mb-6 mx-auto max-w-sm list-disc list-inside">
-              <li>Priority onboarding when we launch</li>
-              <li>Exclusive NFT insurance tier for early users</li>
-              <li>Access to experimental risk-detection models</li>
-              <li>IRIS OG badge</li>
-            </ul>
-            <p className="text-lg text-white/80 mb-4 text-center">
-              Ready to get ahead of the whales?
-              <br />
-              <span className="font-inter">Drop your email and we&apos;ll notify you when IRIS goes live.</span>
-            </p>
+            // Limited spots for the first wave
+          </motion.p>
+
+          {/* Perks */}
+          <motion.div
+            className="border border-white/10 mb-10"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <div className="border-b border-white/10 px-6 py-3 flex items-center gap-2">
+              <div className="w-2 h-2 bg-[#00FFA3]" />
+              <span className="font-mono text-[10px] text-[#00FFA3]/70 uppercase tracking-widest">
+                EARLY_ACCESS_PERKS
+              </span>
+            </div>
+            <div className="divide-y divide-white/5">
+              {perks.map((perk, i) => (
+                <div key={i} className="flex items-center gap-4 px-6 py-3 hover:bg-white/[0.02] transition-colors">
+                  <span className="font-mono text-[#00FFA3] text-xs">{'>'}</span>
+                  <span className="font-mono text-xs text-white/60">{perk}</span>
+                </div>
+              ))}
+            </div>
           </motion.div>
+
+          {/* Waitlist form */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            transition={{ duration: 0.5, delay: 0.35 }}
           >
             <WaitlistForm />
           </motion.div>
-          <div className="mt-8 text-white/60">
-            <p className="font-inter">Limited spots available for the first wave</p>
-          </div>
+
+          <motion.p
+            className="font-mono text-[10px] text-white/30 uppercase tracking-widest text-center mt-8"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
+            Drop your email &amp; stand by for Alpha access.
+          </motion.p>
         </div>
       </div>
     </section>

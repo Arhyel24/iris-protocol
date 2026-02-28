@@ -7,12 +7,15 @@ import LiveStats from "@/components/landing/LiveStats";
 
 const Index: React.FC = () => {
   return (
-    <div className="min-h-screen bg-iris-dark">
+    <div className="min-h-screen bg-black selection:bg-primary/30 selection:text-white">
       <Navbar />
-      <main className="mt-16">
+      <main className="pt-[72px]"> {/* Match navbar height */}
         <Hero />
         <Features />
-        <LiveStats />
+        {/* Keeping LiveStats for now, but wrapper styling is handled inside */}
+        <div className="border-b border-white/10">
+          <LiveStats />
+        </div>
       </main>
       <Footer />
     </div>

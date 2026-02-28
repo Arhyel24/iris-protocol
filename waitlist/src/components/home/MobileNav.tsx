@@ -34,22 +34,30 @@ export const MobileNav = ({ isOpen, onClose }: MobileNavProps) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm"
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm"
         >
           <motion.div
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 20 }}
-            className="fixed right-0 top-0 h-full w-3/4 bg-[#1A1F2C] border-l border-white/10 shadow-xl"
+            className="fixed right-0 top-0 h-full w-3/4 bg-black border-l border-[#00FFA3]/50 shadow-[-20px_0_50px_rgba(0,255,163,0.1)]"
           >
-            <div className="flex flex-col p-6">
-              <div className="flex justify-end mb-8">
-                <Button variant="ghost" size="icon" onClick={onClose}>
+            {/* Grid Pattern */}
+            <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'linear-gradient(#00FFA3 1px, transparent 1px), linear-gradient(90deg, #00FFA3 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+
+            <div className="flex flex-col p-6 relative z-10">
+              <div className="flex justify-end mb-8 border-b border-white/10 pb-4">
+                <Button variant="ghost" size="icon" onClick={onClose} className="rounded-none hover:bg-white/10 text-white">
                   <X className="h-6 w-6" />
                 </Button>
               </div>
-              <nav className="flex flex-col space-y-4">
+
+              <div className="mb-8 font-mono text-[10px] text-primary uppercase tracking-widest border border-primary px-2 py-1 inline-block w-fit">
+                SYSTEM_MENU_ACTV
+              </div>
+
+              <nav className="flex flex-col space-y-6">
                 {MenuItems.map((item, i) => (
                   <motion.a
                     key={item.href}
@@ -59,7 +67,7 @@ export const MobileNav = ({ isOpen, onClose }: MobileNavProps) => {
                     initial="hidden"
                     animate="visible"
                     onClick={onClose}
-                    className="text-lg font-inter tracking-wider text-white/70 hover:text-white transition-colors px-4 py-2"
+                    className="text-2xl font-black font-mono uppercase tracking-widest text-white/50 hover:text-[#00FFA3] hover:pl-4 transition-all"
                   >
                     {item.label}
                   </motion.a>
@@ -69,10 +77,17 @@ export const MobileNav = ({ isOpen, onClose }: MobileNavProps) => {
                   variants={menuItemVariants}
                   initial="hidden"
                   animate="visible"
-                  className="pt-4"
+                  className="pt-8 mt-8 border-t border-white/10"
                 >
-                  <Button className="w-full bg-[#8B5CF6] hover:bg-[#8B5CF6]/80 text-white font-inter tracking-wider">
-                    JOIN THE BETA
+                  <Button
+                    className="w-full bg-transparent hover:bg-[#00FFA3] border-2 border-[#00FFA3] text-[#00FFA3] hover:text-black font-mono font-bold tracking-widest uppercase rounded-none transition-colors py-6 text-lg"
+                    onClick={() => {
+                      onClose()
+                      const el = document.getElementById('waitlist-form')
+                      if (el) el.scrollIntoView({ behavior: 'smooth' })
+                    }}
+                  >
+                    INIT_WAITLIST
                   </Button>
                 </motion.div>
               </nav>

@@ -1,27 +1,40 @@
 """
-IRIS AI Risk Engine - Main FastAPI Application
+IRIS Protocol - Insurance Bridge Backend
 """
 import time
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.endpoints import evaluate, explain
+from app.api.endpoints import insurance, waitlist
 from app.core.config import settings
 from app.core.logging import setup_logging
+from app.core.db import db
 
 # Set up logging
 logger = setup_logging()
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    logger.info("Connecting to Prisma database...")
+    await db.connect()
+    yield
+    # Shutdown
+    logger.info("Disconnecting from Prisma database...")
+    await db.disconnect()
+
 # Create FastAPI application
 app = FastAPI(
-    title="IRIS AI Risk Engine",
-    description="Real-time risk assessment for on-chain wallets",
-    version="0.1.0",
+    title="IRIS Insurance Bridge",
+    description="Bridge connecting Web2 Insurance APIs to Solana Escrows",
+    version="0.2.0",
+    lifespan=lifespan,
 )
 
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -38,18 +51,14 @@ async def add_process_time_header(request: Request, call_next):
     return response
 
 # Include routers
-app.include_router(evaluate.router, prefix="/api/v1", tags=["risk"])
-app.include_router(explain.router, prefix="/api/v1", tags=["explanation"])
+app.include_router(insurance.router, prefix="/api/v1/insurance", tags=["insurance"])
+app.include_router(waitlist.router, prefix="/api/v1/waitlist", tags=["waitlist"])
 
 @app.get("/", tags=["health"])
 async def health_check():
     """Health check endpoint"""
-    return {"status": "ok", "service": "IRIS AI Risk Engine", "version": "0.1.0"}
+    return {"status": "ok", "service": "IRIS Insurance Bridge", "version": "0.2.0"}
 
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
-
-
-
-# uvicorn app.main:app --reload

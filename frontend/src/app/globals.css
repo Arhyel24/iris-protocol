@@ -64,35 +64,36 @@
 }
 
 :root {
-  --background: hsl(240 3% 5%);
-  --foreground: hsl(240 5% 95%);
+  --background: hsl(0 0% 2%);
+  --foreground: hsl(0 0% 98%);
 
-  --card: hsl(240 5% 8%);
-  --card-foreground: hsl(240 5% 95%);
+  --card: hsl(0 0% 4%);
+  --card-foreground: hsl(0 0% 98%);
 
-  --popover: hsl(240 5% 8%);
-  --popover-foreground: hsl(240 5% 95%);
+  --popover: hsl(0 0% 4%);
+  --popover-foreground: hsl(0 0% 98%);
 
-  --primary: hsl(256 78% 74%);
-  --primary-foreground: hsl(240 5% 95%);
+  --primary: hsl(152 100% 50%);
+  --primary-foreground: hsl(0 0% 0%);
 
-  --secondary: hsl(240 4% 12%);
-  --secondary-foreground: hsl(240 5% 95%);
+  --secondary: hsl(0 0% 10%);
+  --secondary-foreground: hsl(0 0% 98%);
 
-  --muted: hsl(240 4% 12%);
-  --muted-foreground: hsl(240 5% 64%);
+  --muted: hsl(0 0% 15%);
+  --muted-foreground: hsl(0 0% 64%);
 
-  --accent: hsl(256 78% 74%);
-  --accent-foreground: hsl(240 5% 95%);
+  --accent: hsl(210 100% 50%);
+  --accent-foreground: hsl(0 0% 98%);
 
-  --destructive: hsl(0 70% 57%);
-  --destructive-foreground: hsl(240 5% 95%);
+  --destructive: hsl(0 100% 50%);
+  --destructive-foreground: hsl(0 0% 98%);
 
-  --border: hsl(240 4% 15%);
-  --input: hsl(240 4% 15%);
-  --ring: hsl(256 78% 74%);
+  --border: hsl(0 0% 20%);
+  --input: hsl(0 0% 15%);
+  --ring: hsl(152 100% 50%);
 
-  --radius: 0.75rem;
+  --radius: 0rem;
+  /* Primitive hard edges */
 }
 
 @layer base {
@@ -115,9 +116,7 @@
   }
 
   .neo-button {
-    @apply bg-gradient-to-r from-iris-purple to-iris-blue text-white font-semibold py-3 px-6 rounded-xl
-           hover:from-iris-purple-light hover:to-iris-blue-light transition-all duration-300
-           shadow-md hover:shadow-lg focus:outline-none;
+    @apply bg-gradient-to-r from-iris-purple to-iris-blue text-white font-semibold py-3 px-6 rounded-xl hover:from-iris-purple-light hover:to-iris-blue-light transition-all duration-300 shadow-md hover:shadow-lg focus:outline-none;
   }
 
   .badge-low {
@@ -154,11 +153,9 @@
 
   .glow-border::after {
     @apply content-[''] absolute top-0 left-0 right-0 bottom-0 rounded-lg -z-10;
-    background: linear-gradient(
-      45deg,
-      rgba(30, 174, 219, 0.5),
-      rgba(155, 135, 245, 0.5)
-    );
+    background: linear-gradient(45deg,
+        rgba(30, 174, 219, 0.5),
+        rgba(155, 135, 245, 0.5));
     filter: blur(8px);
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
@@ -171,7 +168,7 @@
 
 .wallet-adapter-button-trigger {
   height: auto !important;
-  @apply !border !bg-background !shadow-xs hover:!bg-accent !text-accent-foreground hover:!text-accent-foreground dark:!bg-input/30 !border-input/10 dark:!border-input dark:hover:!bg-input/50;
+  @apply !border !bg-background !shadow-xs hover: !bg-accent !text-accent-foreground hover: !text-accent-foreground dark: !bg-input/30 !border-input/10 dark: !border-input dark:hover: !bg-input/50;
   @apply !px-2 !py-[6px] !rounded-md !text-sm !font-semibold !shadow-sm !transition-all;
 }
 
@@ -181,9 +178,11 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -192,6 +191,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
