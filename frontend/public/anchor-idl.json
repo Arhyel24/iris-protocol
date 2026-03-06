@@ -1,0 +1,651 @@
+{
+  "address": "ECDThuwStZ4a1ksQE2C9wakVoa4RYtBp5e7YAXsTJCHN",
+  "metadata": {
+    "name": "anchor",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "IRIS Protocol On-chain Insurance Bridge"
+  },
+  "instructions": [
+    {
+      "name": "initialize_treasury",
+      "discriminator": [124, 186, 211, 195, 85, 165, 129, 166],
+      "accounts": [
+        {
+          "name": "treasury_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [116, 114, 101, 97, 115, 117, 114, 121]
+              },
+              {
+                "kind": "account",
+                "path": "admin"
+              }
+            ]
+          }
+        },
+        {
+          "name": "treasury_usdc",
+          "writable": true
+        },
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "purchase_policy",
+      "discriminator": [246, 226, 82, 107, 131, 219, 247, 45],
+      "accounts": [
+        {
+          "name": "policy_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [112, 111, 108, 105, 99, 121]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "arg",
+                "path": "quote_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "first_premium_record",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [112, 114, 101, 109, 105, 117, 109]
+              },
+              {
+                "kind": "account",
+                "path": "policy_state"
+              },
+              {
+                "kind": "const",
+                "value": [0, 0, 0, 0]
+              }
+            ]
+          }
+        },
+        {
+          "name": "treasury_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [116, 114, 101, 97, 115, 117, 114, 121]
+              },
+              {
+                "kind": "account",
+                "path": "treasury_state.admin"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user_usdc",
+          "writable": true
+        },
+        {
+          "name": "treasury_usdc",
+          "writable": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "quote_id",
+          "type": "string"
+        },
+        {
+          "name": "monthly_premium",
+          "type": "u64"
+        },
+        {
+          "name": "duration_months",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "pay_monthly_premium",
+      "discriminator": [201, 233, 52, 97, 226, 144, 172, 46],
+      "accounts": [
+        {
+          "name": "premium_record",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [112, 114, 101, 109, 105, 117, 109]
+              },
+              {
+                "kind": "account",
+                "path": "policy_state"
+              },
+              {
+                "kind": "arg",
+                "path": "payment_index"
+              }
+            ]
+          }
+        },
+        {
+          "name": "policy_state",
+          "writable": true
+        },
+        {
+          "name": "treasury_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [116, 114, 101, 97, 115, 117, 114, 121]
+              },
+              {
+                "kind": "account",
+                "path": "treasury_state.admin"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user_usdc",
+          "writable": true
+        },
+        {
+          "name": "treasury_usdc",
+          "writable": true
+        },
+        {
+          "name": "oracle",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "payment_index",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "trigger_payout",
+      "discriminator": [145, 81, 98, 96, 194, 251, 69, 38],
+      "accounts": [
+        {
+          "name": "payout_record",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [112, 97, 121, 111, 117, 116]
+              },
+              {
+                "kind": "account",
+                "path": "policy_state"
+              },
+              {
+                "kind": "arg",
+                "path": "payout_index"
+              }
+            ]
+          }
+        },
+        {
+          "name": "treasury_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [116, 114, 101, 97, 115, 117, 114, 121]
+              },
+              {
+                "kind": "account",
+                "path": "treasury_state.admin"
+              }
+            ]
+          }
+        },
+        {
+          "name": "policy_state",
+          "writable": true
+        },
+        {
+          "name": "treasury_usdc",
+          "writable": true
+        },
+        {
+          "name": "user_usdc",
+          "writable": true
+        },
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "claim_id",
+          "type": "string"
+        },
+        {
+          "name": "payout_amount",
+          "type": "u64"
+        },
+        {
+          "name": "payout_index",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "expire_policy",
+      "discriminator": [149, 24, 43, 100, 240, 50, 39, 124],
+      "accounts": [
+        {
+          "name": "policy_state",
+          "writable": true
+        },
+        {
+          "name": "treasury_state",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [116, 114, 101, 97, 115, 117, 114, 121]
+              },
+              {
+                "kind": "account",
+                "path": "treasury_state.admin"
+              }
+            ]
+          }
+        },
+        {
+          "name": "oracle",
+          "signer": true
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "TreasuryState",
+      "discriminator": [240, 56, 226, 158, 138, 244, 79, 154]
+    },
+    {
+      "name": "PolicyState",
+      "discriminator": [227, 72, 222, 251, 231, 230, 163, 49]
+    },
+    {
+      "name": "PremiumRecord",
+      "discriminator": [27, 128, 190, 83, 211, 52, 126, 140]
+    },
+    {
+      "name": "PayoutRecord",
+      "discriminator": [7, 79, 243, 33, 243, 68, 106, 123]
+    }
+  ],
+  "events": [
+    {
+      "name": "PolicyPurchased",
+      "discriminator": [120, 100, 255, 218, 16, 36, 194, 192]
+    },
+    {
+      "name": "PremiumPaid",
+      "discriminator": [159, 75, 105, 27, 181, 14, 243, 40]
+    },
+    {
+      "name": "PayoutTriggered",
+      "discriminator": [75, 27, 171, 224, 30, 65, 161, 177]
+    },
+    {
+      "name": "PolicyExpired",
+      "discriminator": [165, 34, 27, 82, 79, 188, 9, 244]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "UnauthorizedOracle",
+      "msg": "Oracle key must match treasury.admin"
+    },
+    {
+      "code": 6001,
+      "name": "PolicyNotActive",
+      "msg": "Policy is not in Active status"
+    },
+    {
+      "code": 6002,
+      "name": "PolicyNotExpiredYet",
+      "msg": "Policy expiry date has not yet passed"
+    },
+    {
+      "code": 6003,
+      "name": "PaymentNotYetDue",
+      "msg": "Payment is not yet due"
+    },
+    {
+      "code": 6004,
+      "name": "AllPaymentsMade",
+      "msg": "All scheduled payments have already been collected"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidPaymentIndex",
+      "msg": "Payment index does not match expected"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidPayoutIndex",
+      "msg": "Payout index does not match expected"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidDuration",
+      "msg": "Duration must be at least 1 month"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidPremium",
+      "msg": "Amount must be greater than zero"
+    },
+    {
+      "code": 6009,
+      "name": "Overflow",
+      "msg": "Arithmetic overflow"
+    }
+  ],
+  "types": [
+    {
+      "name": "TreasuryState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "total_premiums_collected",
+            "type": "u64"
+          },
+          {
+            "name": "total_payouts",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PolicyState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "quote_id",
+            "type": "string"
+          },
+          {
+            "name": "monthly_premium",
+            "type": "u64"
+          },
+          {
+            "name": "duration_months",
+            "type": "u32"
+          },
+          {
+            "name": "payments_made",
+            "type": "u32"
+          },
+          {
+            "name": "payouts_count",
+            "type": "u32"
+          },
+          {
+            "name": "next_payment_due",
+            "type": "i64"
+          },
+          {
+            "name": "expiry_timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "PolicyStatus"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PremiumRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "policy",
+            "type": "pubkey"
+          },
+          {
+            "name": "payment_index",
+            "type": "u32"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "paid_at",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PayoutRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "policy",
+            "type": "pubkey"
+          },
+          {
+            "name": "claim_id",
+            "type": "string"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "paid_at",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PolicyStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Active"
+          },
+          {
+            "name": "Expired"
+          },
+          {
+            "name": "Claimed"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PolicyPurchased",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "quote_id",
+            "type": "string"
+          },
+          {
+            "name": "monthly_premium",
+            "type": "u64"
+          },
+          {
+            "name": "duration_months",
+            "type": "u32"
+          },
+          {
+            "name": "expiry_timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PremiumPaid",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "policy",
+            "type": "pubkey"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "payment_index",
+            "type": "u32"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "paid_at",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PayoutTriggered",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "claim_id",
+            "type": "string"
+          },
+          {
+            "name": "payout_amount",
+            "type": "u64"
+          },
+          {
+            "name": "paid_at",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PolicyExpired",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "policy",
+            "type": "pubkey"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "expired_at",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ]
+}

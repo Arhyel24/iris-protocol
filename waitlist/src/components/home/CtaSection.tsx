@@ -2,10 +2,10 @@ import { WaitlistForm } from '@/components/home/WaitlistForm'
 import { motion } from 'framer-motion'
 
 const perks = [
-  'Priority onboarding when we launch',
-  'Exclusive NFT insurance tier for early users',
-  'Access to experimental risk-detection models',
-  'IRIS OG badge',
+  'Priority onboarding when IRIS goes live',
+  'Early access to the insurance API integration sandbox',
+  'Discounted settlement fees for founding users',
+  'IRIS OG badge — on-chain proof of early support',
 ]
 
 export const CtaSection = () => {

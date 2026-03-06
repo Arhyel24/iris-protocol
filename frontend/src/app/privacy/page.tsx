@@ -1,149 +1,101 @@
-"use client";
+import Link from "next/link";
 
-import React from "react";
-import { motion } from "framer-motion";
-import { Shield } from "lucide-react";
-
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import { Card, CardContent } from "@/components/ui/card";
-
-export default function PrivacyPage() {
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 },
-  };
-
-const privacyItems = [
+const SECTIONS = [
   {
-    title: "Data Access",
+    title: "1. Information We Collect",
     content:
-      "IRIS exclusively interacts with publicly available on-chain data such as token balances, transaction histories, wallet interactions, and DeFi protocol usage. No off-chain identifiers (such as emails or IPs) or private keys are collected or accessed at any time.",
+      "IRIS interacts exclusively with publicly available on-chain data: your Solana wallet address, transaction history on the Solana blockchain, and policy/claim state stored in our Solana program. We do not collect names, email addresses, IP addresses, or any off-chain personally identifiable information.",
   },
   {
-    title: "AI Training",
+    title: "2. Wallet Addresses",
     content:
-      "Wallet-related insights may be anonymized, aggregated, and used to improve IRIS’s AI models and predictive capabilities. No personally identifiable information (PII) is ever linked to model training data.",
+      "Your wallet public key is used to identify your account, display your policies, and sign on-chain transactions. It is a public key by nature and is visible on the Solana blockchain. We do not link your wallet to any off-chain identity.",
   },
   {
-    title: "No Tracking",
+    title: "3. On-Chain Data",
     content:
-      "IRIS is built with a strong privacy-first architecture. It does not employ cookies, browser fingerprinting, analytics scripts, or any off-chain tracking mechanisms. All interactions remain fully on-chain and wallet-based.",
+      "All policy purchases, premium payments, claims, and payouts are recorded immutably on the Solana blockchain. This data is public by design and cannot be erased. IRIS reads this data to display your dashboard and policy history.",
   },
   {
-    title: "Non-Custodial",
+    title: "4. Insurance Provider Data",
     content:
-      "All risk evaluations and actions performed by IRIS are executed through user-authorized smart contracts. IRIS never holds custody of funds or assets, and users maintain complete control of their wallets.",
+      "To process claims, IRIS relays claim details (event date, policy ID, description) to third-party insurance provider APIs (e.g. Qover, Boost Insurance). These providers operate under their own privacy policies and may be regulated insurers.",
   },
   {
-    title: "Third Parties",
+    title: "5. Cookies & Analytics",
     content:
-      "IRIS does not sell, monetize, or share user data with any third parties, including marketers, advertisers, or data brokers. Any integrations with other dApps or protocols are performed securely on-chain and with user consent.",
+      "The IRIS frontend does not use tracking cookies, browser fingerprinting, or third-party analytics scripts. We do not build behavioral profiles of users.",
   },
   {
-    title: "Security",
+    title: "6. Data Retention",
     content:
-      "IRIS follows industry-leading security practices including third-party audits, formal verification where applicable, and active bug bounty programs. Data and smart contracts are reviewed to maintain privacy, integrity, and resilience.",
+      "Off-chain data processed by the IRIS backend (e.g. quote requests) is retained for 90 days and then deleted. On-chain data persists on the Solana blockchain permanently per the nature of the protocol.",
+  },
+  {
+    title: "7. Your Rights",
+    content:
+      "You may request deletion of any off-chain data we hold by contacting support. On-chain data is immutable and cannot be deleted. You can disconnect your wallet at any time to stop using the service.",
+  },
+  {
+    title: "8. Changes to This Policy",
+    content:
+      "We may update this Privacy Policy. Changes will be posted at this URL with a revised effective date. Continued use of IRIS after changes constitutes acceptance.",
+  },
+  {
+    title: "9. Contact",
+    content:
+      "For privacy-related questions, open a support ticket or reach out on our official community channels. We aim to respond within 48 hours.",
   },
 ];
 
+export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-iris-dark">
-      <Navbar />
-      <main className="container mx-auto px-4 py-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-3xl mx-auto"
-        >
-          <div className="flex items-center justify-center mb-10">
-            <div className="bg-gradient-to-r from-iris-purple to-iris-blue p-[1px] rounded-full">
-              <div className="bg-iris-darker p-4 rounded-full">
-                <Shield className="h-10 w-10 text-iris-purple" />
-              </div>
-            </div>
+    <div className="min-h-screen bg-black text-white font-mono">
+      <div className="border-b border-white/10 px-4 py-16">
+        <div className="max-w-3xl mx-auto">
+          <p className="text-xs text-[#00FFA3] uppercase tracking-widest mb-3">
+            [ LEGAL ]
+          </p>
+          <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter">
+            Privacy <span className="text-[#00FFA3]">Policy</span>
+          </h1>
+          <p className="text-white/40 text-xs mt-4">
+            Effective: January 1, 2026
+          </p>
+        </div>
+      </div>
+
+      <div className="max-w-3xl mx-auto px-4 py-12 space-y-8">
+        <p className="text-sm text-white/60 leading-relaxed">
+          IRIS Protocol is committed to transparency. This policy explains what
+          data we collect, why, and how it is handled. IRIS is a non-custodial
+          protocol — we never hold your private keys or assets.
+        </p>
+
+        {SECTIONS.map((s, i) => (
+          <div key={i} className="border-l-2 border-white/10 pl-6">
+            <h2 className="text-sm font-bold uppercase tracking-widest mb-2">
+              {s.title}
+            </h2>
+            <p className="text-sm text-white/60 leading-relaxed">{s.content}</p>
           </div>
+        ))}
 
-          <motion.h1
-            className="text-4xl font-orbitron font-bold text-white text-center mb-6 glow-border"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
+        <div className="pt-4 flex gap-6 text-xs text-white/30">
+          <Link
+            href="/terms"
+            className="hover:text-[#00FFA3] transition-colors uppercase tracking-widest"
           >
-            Privacy Policy
-          </motion.h1>
-
-          <motion.p
-            className="text-muted-foreground text-lg text-center mb-12 max-w-2xl mx-auto"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
+            Terms of Service
+          </Link>
+          <Link
+            href="/support"
+            className="hover:text-[#00FFA3] transition-colors uppercase tracking-widest"
           >
-            IRIS respects your privacy and is committed to transparency in how
-            it handles user data
-          </motion.p>
-
-          <Card className="glass-card border-none shadow-lg">
-            <CardContent className="pt-6">
-              <motion.div
-                variants={container}
-                initial="hidden"
-                animate="show"
-                className="space-y-6"
-              >
-                {privacyItems.map((privacyItem, index) => (
-                  <motion.div
-                    key={index}
-                    variants={item}
-                    className="border-b border-iris-purple/10 pb-6 last:border-0 last:pb-0"
-                  >
-                    <h3 className="text-xl font-medium text-white mb-2">
-                      {privacyItem.title}
-                    </h3>
-                    <p className="text-muted-foreground">
-                      {privacyItem.content}
-                    </p>
-                  </motion.div>
-                ))}
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8 }}
-                className="mt-8 p-5 bg-iris-purple/5 border border-iris-purple/10 rounded-lg"
-              >
-                <h3 className="text-white font-medium mb-2">Contact Us</h3>
-                <p className="text-muted-foreground">
-                  If you have questions or concerns about your privacy, contact
-                  the IRIS team via the official Discord or GitHub repository.
-                </p>
-              </motion.div>
-            </CardContent>
-          </Card>
-
-          <motion.div
-            className="mt-10 text-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.0 }}
-          >
-            <p className="text-muted-foreground text-sm">
-              Last updated: April 20, 2025. Privacy Policy is subject to change.
-            </p>
-          </motion.div>
-        </motion.div>
-      </main>
-      <Footer />
+            Contact Support
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

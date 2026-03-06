@@ -1,34 +1,34 @@
-import { Monitor, Search, Shield, Zap } from 'lucide-react'
+import { Globe, Lock, Zap, FileCheck } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 const features = [
   {
     id: '01',
-    icon: Monitor,
-    label: 'REAL_TIME_MONITOR',
-    title: 'Real-Time Monitoring',
-    description: '24/7 surveillance of your portfolio positions and market conditions',
+    icon: Globe,
+    label: 'RWI_API_BRIDGE',
+    title: 'Real-World Insurance APIs',
+    description: 'Connect any real-world insurance provider to Solana through a unified settlement layer',
   },
   {
     id: '02',
-    icon: Search,
-    label: 'AI_RISK_ALERTS',
-    title: 'AI-Driven Risk Alerts',
-    description: 'Machine learning algorithms identify potential threats before they impact your assets',
+    icon: Zap,
+    label: 'ON_CHAIN_PREMIUMS',
+    title: 'On-Chain Premium Payments',
+    description: 'Pay your insurance premiums directly on-chain — fast, transparent, and borderless',
   },
   {
     id: '03',
-    icon: Shield,
-    label: 'AUTO_PROTECTION',
-    title: 'Auto Asset Protection',
-    description: 'Swift automated actions to secure your assets when threats are detected',
+    icon: Lock,
+    label: 'ESCROW_PAYOUTS',
+    title: 'Escrow-Secured Payouts',
+    description: 'Claims are settled via trustless escrow contracts — funds released automatically on approval',
   },
   {
     id: '04',
-    icon: Zap,
-    label: 'NFT_INSURANCE',
-    title: 'NFT-Based Insurance',
-    description: 'Blockchain-secured insurance protocols that guarantee your coverage',
+    icon: FileCheck,
+    label: 'SETTLEMENT_FINAL',
+    title: 'Instant Settlement',
+    description: 'Solana-speed finality means your payout lands in seconds, not weeks',
   },
 ]
 

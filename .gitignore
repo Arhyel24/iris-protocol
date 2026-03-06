@@ -55,6 +55,8 @@ backend/*.pyd
 backend/*.db
 backend/.mypy_cache/
 backend/.pytest_cache/
+backend/oracle-keypair.json
+*-keypair.json
 
 # =====================
 # VSCode

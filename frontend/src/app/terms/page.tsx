@@ -1,138 +1,101 @@
-"use client";
+import Link from "next/link";
 
-import { motion } from "framer-motion";
-import { FileText } from "lucide-react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import { Card, CardContent } from "@/components/ui/card";
-
-export default function TermsClient() {
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 },
-    },
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 },
-  };
-
-  const termsItems = [
+const SECTIONS = [
   {
-    title: "Non-Custodial Use",
+    title: "1. Beta Disclaimer",
     content:
-      "IRIS operates in a fully non-custodial manner. At no point does IRIS have access to, nor can it control, your private keys or digital assets. All transactions and risk responses are executed directly from your connected wallet with your explicit approval.",
+      "IRIS Protocol is in public beta on Solana Devnet. The platform is provided AS IS with no warranty. Features, fees, and coverage terms may change without notice. Do not use IRIS with funds you cannot afford to lose.",
   },
   {
-    title: "No Financial Advice",
+    title: "2. Eligibility",
     content:
-      "The services, data models, and insights provided by IRIS are for informational and educational purposes only. Nothing on this platform constitutes financial, investment, or legal advice. Users should consult a licensed financial advisor before making investment decisions.",
+      "You must be at least 18 years old and not located in a jurisdiction where purchasing insurance or using blockchain-based financial services is prohibited. By using IRIS, you confirm that you meet these requirements.",
   },
   {
-    title: "Protocol Risk",
+    title: "3. Coverage Terms",
     content:
-      "You acknowledge and accept the inherent risks involved in using blockchain technology, including but not limited to smart contract vulnerabilities, oracle failures, front-running attacks, and unexpected protocol behavior. These risks may lead to partial or total loss of funds.",
+      "Insurance coverage is provided by licensed third-party carriers integrated via API. Coverage terms, exclusions, and limits are set by those carriers and are disclosed in full before you complete a purchase. IRIS is a settlement layer — it is not itself an insurance company.",
   },
   {
-    title: "AI Actions",
+    title: "4. Premiums & Escrow",
     content:
-      "The AI-driven actions and recommendations made by IRIS are based on historical data, statistical models, and real-time signals. These are best-effort predictions and do not guarantee future outcomes. Users assume full responsibility for enabling, disabling, or customizing risk thresholds and automated actions.",
+      "When you purchase a policy, your premium (in USDC) is locked in a non-custodial Solana PDA. IRIS cannot unilaterally access or move these funds. The escrow is released only upon validated claim approval or policy cancellation per the on-chain program logic.",
   },
   {
-    title: "No Guarantee",
+    title: "5. Claims",
     content:
-      "While IRIS is designed to reduce exposure to adverse events such as rug pulls, sudden volatility, and whale movements, it does not guarantee complete protection or indemnification. Risk mitigation is probabilistic and cannot ensure full compensation or loss recovery.",
+      "Claims are validated by the relevant insurance provider API. IRIS relays the provider determination on-chain and executes the payout automatically. IRIS does not adjudicate claims independently and cannot override a provider decision.",
   },
   {
-    title: "Usage Data",
+    title: "6. No Financial Advice",
     content:
-      "IRIS may use on-chain wallet metadata, token behavior, and risk outcomes to improve its machine learning models and platform analytics. All data used for training purposes is anonymized, aggregated, and never sold to third parties.",
+      "Nothing on the IRIS platform constitutes financial, investment, or legal advice. Coverage amounts and products are illustrative. Consult a licensed professional before making financial decisions.",
   },
   {
-    title: "Changes to Terms",
+    title: "7. Protocol Risk",
     content:
-      "These terms and conditions may be updated periodically to reflect changes in functionality, legal compliance, or risk posture. Continued access or usage of the IRIS platform after changes implies acceptance of the updated terms. Users are encouraged to review this section regularly.",
+      "You acknowledge inherent risks of blockchain technology including smart contract bugs, network outages, oracle failures, and regulatory changes. These risks may result in partial or total loss of funds.",
+  },
+  {
+    title: "8. Governing Law",
+    content:
+      "These terms are governed by the laws of the jurisdiction in which IRIS Labs is incorporated, without regard to conflict of law provisions. Any disputes shall be resolved through binding arbitration.",
+  },
+  {
+    title: "9. Changes to Terms",
+    content:
+      "We may update these Terms. Changes will be posted with a revised effective date. Continued use of IRIS after changes constitutes acceptance of the revised terms.",
   },
 ];
 
-
+export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-iris-dark">
-      <Navbar />
-      <main className="container mx-auto px-4 py-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-3xl mx-auto"
-        >
-          <div className="flex items-center justify-center mb-10">
-            <div className="bg-gradient-to-r from-iris-purple to-iris-blue p-[1px] rounded-full">
-              <div className="bg-iris-darker p-4 rounded-full">
-                <FileText className="h-10 w-10 text-iris-purple" />
-              </div>
-            </div>
+    <div className="min-h-screen bg-black text-white font-mono">
+      <div className="border-b border-white/10 px-4 py-16">
+        <div className="max-w-3xl mx-auto">
+          <p className="text-xs text-[#00FFA3] uppercase tracking-widest mb-3">
+            [ LEGAL ]
+          </p>
+          <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter">
+            Terms of <span className="text-[#00FFA3]">Service</span>
+          </h1>
+          <p className="text-white/40 text-xs mt-4">
+            Effective: January 1, 2026
+          </p>
+        </div>
+      </div>
+
+      <div className="max-w-3xl mx-auto px-4 py-12 space-y-8">
+        <p className="text-sm text-white/60 leading-relaxed">
+          By connecting your wallet and using IRIS Protocol, you agree to these
+          Terms of Service. Please read them carefully. If you do not agree, do
+          not use the platform.
+        </p>
+
+        {SECTIONS.map((s, i) => (
+          <div key={i} className="border-l-2 border-white/10 pl-6">
+            <h2 className="text-sm font-bold uppercase tracking-widest mb-2">
+              {s.title}
+            </h2>
+            <p className="text-sm text-white/60 leading-relaxed">{s.content}</p>
           </div>
+        ))}
 
-          <motion.h1
-            className="text-4xl font-orbitron font-bold text-white text-center mb-6 glow-border"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
+        <div className="pt-4 flex gap-6 text-xs text-white/30">
+          <Link
+            href="/privacy"
+            className="hover:text-[#00FFA3] transition-colors uppercase tracking-widest"
           >
-            Terms of Service
-          </motion.h1>
-
-          <motion.p
-            className="text-muted-foreground text-lg text-center mb-12 max-w-2xl mx-auto"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
+            Privacy Policy
+          </Link>
+          <Link
+            href="/support"
+            className="hover:text-[#00FFA3] transition-colors uppercase tracking-widest"
           >
-            By using the IRIS Protocol, you agree to the following terms:
-          </motion.p>
-
-          <Card className="glass-card border-none shadow-lg">
-            <CardContent className="pt-6">
-              <motion.div
-                variants={container}
-                initial="hidden"
-                animate="show"
-                className="space-y-6"
-              >
-                {termsItems.map((term, index) => (
-                  <motion.div
-                    key={index}
-                    variants={item}
-                    className="border-b border-iris-purple/10 pb-6 last:border-0 last:pb-0"
-                  >
-                    <h3 className="text-xl font-medium text-white mb-2">
-                      {term.title}
-                    </h3>
-                    <p className="text-muted-foreground">{term.content}</p>
-                  </motion.div>
-                ))}
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8 }}
-                className="mt-8 p-4 bg-iris-purple/5 border border-iris-purple/10 rounded-lg"
-              >
-                <p className="text-muted-foreground text-sm">
-                  Last updated: April 20, 2025. The IRIS Protocol reserves the
-                  right to modify these terms at any time. By continuing to use
-                  the platform after changes are made, you accept the revised
-                  terms.
-                </p>
-              </motion.div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      </main>
-      <Footer />
+            Contact Support
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

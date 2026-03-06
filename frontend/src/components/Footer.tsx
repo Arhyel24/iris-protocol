@@ -1,68 +1,81 @@
-import React from 'react'
-import { Github, Twitter, Book, MessageSquare } from 'lucide-react'
-import Link from 'next/link'
+import Link from "next/link";
 
-const Footer: React.FC = () => {
+const LINKS = {
+  Product: [
+    { label: "Dashboard", href: "/dashboard" },
+    { label: "Buy Insurance", href: "/insurance" },
+    { label: "File a Claim", href: "/claims" },
+    { label: "History", href: "/history" },
+  ],
+  Support: [
+    { label: "Help Center", href: "/help" },
+    { label: "FAQ", href: "/faq" },
+    { label: "Customer Care", href: "/support" },
+    { label: "About IRIS", href: "/about" },
+  ],
+  Legal: [
+    { label: "Privacy Policy", href: "/privacy" },
+    { label: "Terms of Service", href: "/terms" },
+  ],
+};
+
+export function SiteFooter() {
   return (
-    <footer className="bg-black py-16 border-t font-mono border-white/10">
-      <div className="container mx-auto px-4">
+    <footer className="bg-black border-t border-white/10 font-mono">
+      <div className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-
-          <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-6">
-              <div className="w-5 h-5 bg-primary relative overflow-hidden">
-                <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(0,0,0,0.5)_50%,transparent_75%)] bg-[length:10px_10px]" />
+          {/* Brand */}
+          <div>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-5 h-5 bg-[#00FFA3] border border-[#00FFA3] relative flex-shrink-0">
+                <div className="absolute inset-[3px] bg-black" />
               </div>
-              <h3 className="text-2xl font-black text-white tracking-widest uppercase">
-                IRIS PROTOCOL
-              </h3>
+              <span className="text-base font-black text-white tracking-widest uppercase">
+                IRIS
+              </span>
             </div>
-
-            <p className="text-muted-foreground text-sm mb-8 max-w-sm leading-relaxed border-l-2 border-white/20 pl-4">
-              The on-chain settlement layer for real-world insurance APIs.
-              Pay in USDC, get covered instantly.
+            <p className="text-xs text-white/40 leading-relaxed max-w-[12rem]">
+              Settlement layer for Real-World Insurance APIs on Solana.
             </p>
-
-            <div className="flex space-x-4">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-white/20 flex items-center justify-center text-muted-foreground hover:bg-white hover:text-black transition-colors">
-                <Github size={18} />
-              </a>
-              <a href="https://twitter.com/irisprotocol" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-white/20 flex items-center justify-center text-muted-foreground hover:bg-primary hover:border-primary hover:text-black transition-colors">
-                <Twitter size={18} />
-              </a>
-              <a href="https://discord.gg/dEYDYrcrQ3" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-white/20 flex items-center justify-center text-muted-foreground hover:bg-[#5865F2] hover:border-[#5865F2] hover:text-white transition-colors">
-                <MessageSquare size={18} />
-              </a>
+            <div className="mt-6 inline-block text-xs text-white/30 border border-white/10 px-2 py-1 uppercase tracking-widest">
+              DEVNET BETA
             </div>
           </div>
 
-          <div>
-            <h4 className="font-bold text-sm text-white mb-6 uppercase tracking-widest">Resources</h4>
-            <ul className="space-y-3 text-sm">
-              <li><Link href="/docs" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"><span>[<span className="text-transparent group-hover:text-primary font-bold">{'>'}</span>]</span> Documentation</Link></li>
-              <li><Link href="/faq" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"><span>[<span className="text-transparent group-hover:text-primary font-bold">{'>'}</span>]</span> FAQ</Link></li>
-              <li><Link href="/terms" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"><span>[<span className="text-transparent group-hover:text-primary font-bold">{'>'}</span>]</span> Terms of Service</Link></li>
-              <li><Link href="/privacy" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"><span>[<span className="text-transparent group-hover:text-primary font-bold">{'>'}</span>]</span> Privacy Policy</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-bold text-sm text-white mb-6 uppercase tracking-widest">Platform</h4>
-            <ul className="space-y-3 text-sm">
-              <li><Link href="/dashboard" className="text-muted-foreground hover:text-primary transition-colors hover:underline underline-offset-4">Dashboard</Link></li>
-              <li><Link href="/insurance" className="text-muted-foreground hover:text-primary transition-colors hover:underline underline-offset-4">Get Covered</Link></li>
-              <li><Link href="/wallets" className="text-muted-foreground hover:text-primary transition-colors hover:underline underline-offset-4">Manage Wallets</Link></li>
-            </ul>
-          </div>
+          {/* Link columns */}
+          {Object.entries(LINKS).map(([section, links]) => (
+            <div key={section}>
+              <p className="text-xs text-[#00FFA3] uppercase tracking-widest mb-4">
+                [ {section} ]
+              </p>
+              <ul className="space-y-3">
+                {(links as { label: string; href: string }[]).map((l) => (
+                  <li key={l.href}>
+                    <Link
+                      href={l.href}
+                      className="text-xs text-white/50 hover:text-[#00FFA3] transition-colors"
+                    >
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        <div className="border-t border-white/10 mt-16 pt-8 flex flex-col md:flex-row justify-between text-xs text-muted-foreground uppercase tracking-widest">
-          <p>SYS_VER: 0.2.0-BETA</p>
-          <p>© {new Date().getFullYear()} IRIS. ALL SYSTEMS OPERATIONAL.</p>
+        {/* Bottom bar */}
+        <div className="mt-12 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-white/30">
+            &copy; {new Date().getFullYear()} IRIS Labs. All rights reserved.
+          </p>
+          <p className="text-xs text-white/20 uppercase tracking-widest">
+            Built on Solana &mdash; Powered by Real Insurance APIs
+          </p>
         </div>
       </div>
     </footer>
-  )
+  );
 }
 
-export default Footer
+export default SiteFooter;

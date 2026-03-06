@@ -4,24 +4,23 @@ import { motion } from 'framer-motion'
 const steps = [
   {
     id: '01',
-    title: 'Connect Wallet',
-    description:
-      'Securely link your Solana wallet to IRIS for monitoring. No fund transfers required — IRIS only observes.',
+    title: 'Connect & Select Policy',
+    description: 'Link your Solana wallet and choose a real-world insurance product from any integrated API provider.',
     tag: 'INIT_HANDSHAKE',
   },
   {
     id: '02',
-    title: 'IRIS Monitors Portfolio',
+    title: 'Pay Premium On-Chain',
     description:
-      'AI algorithms constantly analyze your holdings against market data, whale movements, and protocol risks.',
-    tag: 'SCAN_ACTIVE',
+      'Your premium is sent on-chain and locked in an IRIS escrow contract — fully transparent and verifiable.',
+    tag: 'PREMIUM_SETTLED',
   },
   {
     id: '03',
-    title: 'IRIS Reacts Instantly',
+    title: 'Receive Payout via Escrow',
     description:
-      'When threats are detected, IRIS automatically swaps at-risk assets, triggers insurance, and alerts you.',
-    tag: 'AUTO_RESPOND',
+      'When a valid claim is triggered by the insurance API, IRIS releases your payout from escrow instantly.',
+    tag: 'PAYOUT_RELEASED',
   },
 ]
 
@@ -95,11 +94,13 @@ export const HowItWorksSection = () => {
           </div>
           <div>
             <span className="font-mono text-[9px] text-[#00FFA3]/50 uppercase tracking-widest block mb-1">
-              // NFT_STAKE_BOOST
+              // SETTLEMENT_LAYER
             </span>
-            <h4 className="font-mono text-sm font-black uppercase tracking-wider text-white mb-1">NFT Staking Boost</h4>
+            <h4 className="font-mono text-sm font-black uppercase tracking-wider text-white mb-1">
+              Settlement Finality
+            </h4>
             <p className="font-mono text-xs text-white/50">
-              Stake IRIS NFTs to upgrade coverage tiers and unlock premium protection features.
+              Every premium and payout is recorded on-chain — giving policyholders and providers full auditability.
             </p>
           </div>
         </motion.div>

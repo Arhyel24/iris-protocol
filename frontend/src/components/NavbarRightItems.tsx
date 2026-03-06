@@ -1,92 +1,38 @@
-"use client"
-import React from "react";
-import Link from "next/link";
-import { Bell, User, LogOut } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/contexts/AuthContext";
+"use client";
 
-import { useToast } from "@/hooks/use-toast";
-import { LoginButton } from "./auth/AuthButtons";
+import Link from "next/link";
+import { Bell } from "lucide-react";
 
 export interface NavbarRightItemsProps {
   onOpenNotifications?: () => void;
   notificationCount?: number;
 }
 
-const NavbarRightItems: React.FC<NavbarRightItemsProps> = ({
+export default function NavbarRightItems({
   onOpenNotifications,
   notificationCount = 0,
-}) => {
-  const { user, signOut } = useAuth();
-  const { toast } = useToast();
-
-  const handleSignOut = async () => {
-    try {
-      await signOut(); // From useAuth
-      toast({
-        title: "Signed out successfully",
-        description: "You have been signed out of your account",
-      });
-
-      // Redirect will happen automatically due to AuthGuard
-    } catch (error) {
-      console.error("Error signing out:", error);
-      toast({
-        title: "Error",
-        description: "Failed to sign out. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
-
-  if (!user) {
-    return (
-      <div className="flex items-center space-x-2">
-        {/* <Link href="/auth?mode=login">
-          <Button variant="outline" className="border-iris-purple/30 hover:bg-iris-purple/10">
-            Sign In
-          </Button>
-        </Link>
-        <Link href="/auth?mode=signup">
-          <Button className="neo-button">Sign Up</Button>
-        </Link> */}
-        <LoginButton />
-      </div>
-    );
-  }
-
+}: NavbarRightItemsProps) {
   return (
-    <div className="flex items-center space-x-3">
-      <Button
-        variant="ghost"
-        size="icon"
-        className="relative"
+    <div className="flex items-center gap-2">
+      <button
         onClick={onOpenNotifications}
+        className="relative p-2 text-white/40 hover:text-white transition-colors"
+        aria-label="Notifications"
       >
-        <Bell className="h-5 w-5" />
+        <Bell size={16} />
         {notificationCount > 0 && (
-          <span className="absolute -top-1 -right-1 bg-iris-purple text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+          <span className="absolute -top-0.5 -right-0.5 bg-[#00FFA3] text-black text-[9px] font-bold rounded-none h-4 w-4 flex items-center justify-center font-mono">
             {notificationCount}
           </span>
         )}
-      </Button>
+      </button>
 
-      <Link href="/settings">
-        <Button variant="ghost" size="icon">
-          <User className="h-5 w-5" />
-        </Button>
-      </Link>
-
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={handleSignOut}
-        title="Sign out"
+      <Link
+        href="/settings"
+        className="text-xs text-white/40 hover:text-white uppercase tracking-widest font-mono transition-colors px-2 py-1"
       >
-        <LogOut className="h-5 w-5" />
-      </Button>
+        Settings
+      </Link>
     </div>
   );
-};
-
-export default NavbarRightItems;
+}

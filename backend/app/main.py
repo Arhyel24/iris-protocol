@@ -1,63 +1,90 @@
 """
-IRIS Protocol - Insurance Bridge Backend
+IRIS Protocol — Insurance Settlement Bridge
+============================================
+FastAPI application that bridges Real-World Insurance APIs to Solana escrows.
+
+Flow:
+  User pays premium on-chain (SOL/USDC)
+    → locked in Solana escrow PDA
+    → insurance API validates claim event
+    → escrow releases payout to user wallet
 """
+
 import time
 from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.endpoints import insurance, waitlist
-from app.core.config import settings
-from app.core.logging import setup_logging
-from app.core.db import db
 
-# Set up logging
+from app.api.v1.router import router as v1_router
+from app.core.db import db
+from app.core.logging import setup_logging
+from app.core.scheduler import start_scheduler, stop_scheduler
+
 logger = setup_logging()
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup
-    logger.info("Connecting to Prisma database...")
+    logger.info("IRIS backend starting — connecting to database...")
     await db.connect()
+    logger.info("Database connected.")
+    start_scheduler(app)
     yield
-    # Shutdown
-    logger.info("Disconnecting from Prisma database...")
+    stop_scheduler(app)
+    logger.info("IRIS backend shutting down — disconnecting from database...")
     await db.disconnect()
 
-# Create FastAPI application
+
 app = FastAPI(
-    title="IRIS Insurance Bridge",
-    description="Bridge connecting Web2 Insurance APIs to Solana Escrows",
-    version="0.2.0",
+    title="IRIS Insurance Bridge API",
+    description=(
+        "Settlement layer connecting Real-World Insurance APIs to Solana escrows. "
+        "Users pay premiums on-chain; payouts are released automatically on claim approval."
+    ),
+    version="1.0.0",
     lifespan=lifespan,
+    docs_url="/docs",
+    redoc_url="/redoc",
 )
 
-# Add CORS middleware
+# ---------------------------------------------------------------------------
+# CORS
+# ---------------------------------------------------------------------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],   # lock down in production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Request timing middleware
+# ---------------------------------------------------------------------------
+# Request timing
+# ---------------------------------------------------------------------------
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
-    start_time = time.time()
+    start = time.perf_counter()
     response = await call_next(request)
-    process_time = time.time() - start_time
-    logger.info(f"Request processed in {process_time:.3f} seconds")
-    response.headers["X-Process-Time"] = str(process_time)
+    elapsed = time.perf_counter() - start
+    response.headers["X-Process-Time"] = f"{elapsed:.4f}"
     return response
 
-# Include routers
-app.include_router(insurance.router, prefix="/api/v1/insurance", tags=["insurance"])
-app.include_router(waitlist.router, prefix="/api/v1/waitlist", tags=["waitlist"])
+# ---------------------------------------------------------------------------
+# Routes
+# ---------------------------------------------------------------------------
+app.include_router(v1_router)
 
-@app.get("/", tags=["health"])
+# ---------------------------------------------------------------------------
+# Health check
+# ---------------------------------------------------------------------------
+@app.get("/", tags=["Health"])
 async def health_check():
-    """Health check endpoint"""
-    return {"status": "ok", "service": "IRIS Insurance Bridge", "version": "0.2.0"}
+    return {
+        "status": "ok",
+        "service": "IRIS Insurance Bridge",
+        "version": "1.0.0",
+    }
 
 if __name__ == "__main__":
     import uvicorn

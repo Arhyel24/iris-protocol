@@ -1,137 +1,182 @@
-# 🧠 IRIS Risk Engine
+﻿# IRIS Protocol Backend API
 
-> An AI-powered, real-time risk evaluation and mitigation engine designed to protect DeFi users from wallet vulnerabilities, volatile tokens, and market threats. Built on Solana, integrated into the IRIS Protocol.
-
----
-
-## 📌 Overview
-
-The **IRIS Risk Engine** is the core intelligence layer of the IRIS Protocol. It actively monitors wallet activity, asset health, and market signals to generate real-time risk scores and trigger protective actions (alerts, swaps, insurance claims). It is fully non-custodial and optimized for speed, scalability, and composability within the Solana ecosystem.
+> Settlement layer connecting Real-World Insurance APIs to Solana escrows.
+> Users pay premiums on-chain (USDC/SOL); approved claims trigger automatic escrow payouts.
 
 ---
 
-## 🚀 Key Features
+## Overview
 
-* **Real-Time Wallet Risk Scoring**
-  Continuously evaluates wallet-level and asset-level risk using historical volatility, liquidity trends, exposure concentration, and token metadata.
+The IRIS backend is a **FastAPI** service that sits between the IRIS frontend/wallet and:
 
-* **On-Chain & Off-Chain Data Pipelines**
-  Combines live blockchain data with off-chain market feeds, protocol metrics, and ML predictions for holistic risk analysis.
+- **Real-world insurance providers** (Qover, Boost, etc.) for quote pricing and claim validation
+- **Solana on-chain programs** for escrow management (premium lock-in, payout release, refunds)
+- **PostgreSQL via Prisma** for persistent policy, claim, and user data
 
-* **Modular Protection Triggers**
-  Customizable thresholds set by users or protocols that automatically trigger alerts, swaps, or insurance execution based on risk changes.
+### Settlement Flow
 
-* **AI/ML-Driven Predictions**
-  Integrates machine learning models trained on DeFi liquidation events, scam histories, and flash crash scenarios.
-
-* **Event Logging & Transparency**
-  All scoring actions, risk changes, and protection triggers are immutably logged for transparency and community auditing.
-
----
-
-## 🔍 How It Works
-
-```mermaid
-graph TD
-    A[Wallet Scan Triggered] --> B[Fetch Asset Holdings]
-    B --> C[Query Historical Data (Oracles)]
-    C --> D[Run ML Model for Token Risk]
-    D --> E[Calculate Portfolio Exposure & Health Score]
-    E --> F{Threshold Breached?}
-    F -- Yes --> G[Trigger Protection Action]
-    F -- No --> H[Log Risk Score, Idle]
-    G --> I[Auto Swap or Insurance Claim]
+```
+User connects wallet
+   requests quote (insurance API prices the risk)
+   pays premium on-chain  locked in Solana escrow PDA
+   backend issues policy (notifies insurance provider)
+   user files claim  insurance API validates event
+   escrow releases payout tx to user wallet
 ```
 
 ---
 
-## ⚙️ Architecture
+## Stack
 
-### Components
-
-| Component            | Description                                                                         |
-| -------------------- | ----------------------------------------------------------------------------------- |
-| **Data Ingestor**    | Gathers wallet balances, token metadata, oracle prices, protocol interactions       |
-| **Risk Engine Core** | Core service that computes token risk scores and wallet health ratios               |
-| **ML Model Server**  | Deployed models (e.g. LightGBM, XGBoost, custom neural nets) for anomaly prediction |
-| **Trigger Engine**   | Evaluates rules and user-defined triggers to initiate actions                       |
-| **Event Logger**     | On-chain record of every decision made, fully auditable                             |
-
----
-
-## 📈 Risk Scoring Model
-
-| Factor              | Description                                                       |
-| ------------------- | ----------------------------------------------------------------- |
-| **Volatility**      | Token price deviation over time using exponential moving variance |
-| **Liquidity Depth** | Evaluation of AMM pools (Raydium, Orca) and slippage metrics      |
-| **Protocol Risk**   | Oracle trust score, TVL metrics, contract age                     |
-| **Token Metadata**  | Scans for honeypot flags, rug history, source code verifiability  |
-| **Wallet Exposure** | Asset concentration ratio, diversification index                  |
-
-Final wallet score is a weighted aggregation of token scores + exposure risk, mapped to tiers (Low, Medium, High, Critical).
+| Layer        | Technology                      |
+| ------------ | ------------------------------- |
+| Framework    | FastAPI 0.115+                  |
+| Runtime      | Python 3.12+ (3.14 supported)   |
+| Database ORM | Prisma (prisma-client-py 0.15)  |
+| Database     | PostgreSQL 16                   |
+| Validation   | Pydantic v2 + pydantic-settings |
+| HTTP client  | httpx (async)                   |
+| Tests        | pytest + pytest-asyncio + httpx |
+| Container    | Docker + docker-compose         |
 
 ---
 
-## 🔐 Security Considerations
+## Project Structure
 
-* Audited smart contracts
-* Rate-limiting to prevent flash-loops or spam attacks
-* AI failsafe with manual override capability
-* No private keys or off-chain user data stored
+```
+backend/
+ app/
+    main.py                   # App factory, lifespan, CORS, routing
+    api/
+       deps.py               # Shared FastAPI dependencies
+       v1/
+           router.py         # Aggregates all v1 routes under /api/v1
+           endpoints/
+               waitlist.py   # POST /waitlist/  join early access
+               users.py      # POST /users/, GET /users/{wallet}
+               quotes.py     # POST /quotes/  fetch insurance price
+               policies.py   # POST /policies/  activate after on-chain payment
+               claims.py     # POST /claims/, PATCH /{id}/review
+    schemas/                  # Pydantic request/response models
+    services/
+       insurance_api.py      # Adapter for insurance provider HTTP API
+       escrow.py             # Adapter for Solana escrow program
+    core/
+       config.py             # pydantic-settings (reads .env)
+       db.py                 # Prisma singleton
+       logging.py            # Structured logging setup
+    tests/
+        conftest.py
+        test_waitlist.py
+        test_insurance_flow.py
+ schema.prisma                 # Database schema (User, Waitlist, Quote, Policy, Claim)
+ requirements.txt
+ Dockerfile
+ docker-compose.yml
+```
 
 ---
 
-## 📦 Integration
+## Getting Started
 
-IRIS Risk Engine can be integrated by:
-
-* Wallets: To offer real-time safety prompts
-* Protocols: As a backend oracle to protect LPs, vaults, or trading bots
-* dApps: With REST API or SDK (coming soon)
-
----
-
-## 🧪 Testing
+### Option A Docker (recommended)
 
 ```bash
-# Run full suite of unit tests
-npm run test
+# From the project root
+docker compose up --build
+```
 
-# Test ML scoring manually
-node scripts/mockRiskEval.js --wallet demoWalletAddress
+The API will be available at `http://localhost:8000`.
+Swagger docs: `http://localhost:8000/docs`
+
+### Option B Local (Python 3.12+)
+
+**1. Install dependencies**
+
+```bash
+cd backend
+pip install -r requirements.txt
+```
+
+**2. Create `.env`** (copy from `.env.example`)
+
+```bash
+cp .env.example .env
+# edit DATABASE_URL, HELIUS_API_KEY etc.
+```
+
+**3. Generate Prisma client and push schema**
+
+```powershell
+# Windows: scripts may not be on PATH
+$env:PATH += ";$env:APPDATA\Python\Python314\Scripts"
+python -m prisma generate
+python -m prisma db push
+```
+
+**4. Start the server**
+
+```powershell
+# Run from inside backend/
+$env:PYTHONPATH = $PWD
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
 ---
 
-## 📅 Roadmap
+## API Reference
 
-| Milestone                          | ETA            |
-| ---------------------------------- | -------------- |
-| MVP Release                        | ✅ Q2 2025      |
-| Solana Oracle Integration          | 🔄 In progress |
-| Insurance NFT Execution Layer      | Q3 2025        |
-| SDK + REST API                     | Q4 2025        |
-| Risk-as-a-Service for Institutions | Q1 2026        |
+| Method | Path                           | Description                              |
+| ------ | ------------------------------ | ---------------------------------------- |
+| GET    | `/`                            | Health check                             |
+| POST   | `/api/v1/waitlist/`            | Join early-access waitlist               |
+| GET    | `/api/v1/waitlist/`            | [Admin] List all waitlist entries        |
+| POST   | `/api/v1/users/`               | Register a Solana wallet                 |
+| GET    | `/api/v1/users/{wallet}`       | Fetch user by wallet address             |
+| POST   | `/api/v1/quotes/`              | Request an insurance quote               |
+| GET    | `/api/v1/quotes/{id}`          | Fetch a specific quote                   |
+| POST   | `/api/v1/policies/`            | Activate policy (after on-chain payment) |
+| GET    | `/api/v1/policies/{id}`        | Fetch a policy                           |
+| PATCH  | `/api/v1/policies/{id}/cancel` | Cancel an active policy                  |
+| POST   | `/api/v1/claims/`              | File a claim against a policy            |
+| GET    | `/api/v1/claims/{id}`          | Fetch a claim                            |
+| PATCH  | `/api/v1/claims/{id}/review`   | [Admin] Approve / reject triggers payout |
 
----
-
-## 📖 Glossary
-
-* **Critical Risk**: A wallet state that likely precedes fund loss.
-* **Protection Trigger**: A user-defined rule that automatically executes protection actions.
-* **Insurance NFT**: Token that defines claim coverage upon risk-based events.
-
----
-
-## 👨‍💻 Maintainers
-
-* **Enoch Philip** — Lead Developer & Architect
-* [GitHub](https://github.com/arhyel24) · [Twitter](https://twitter.com/arhyel24)
+Full interactive docs available at `/docs` (Swagger UI) and `/redoc`.
 
 ---
 
-## 📬 Contributions & Support
+## Environment Variables
 
-This repo is currently in closed alpha. For early integration requests, model tuning help, or risk dataset collaboration, contact:
-📧 `iris@projectiris.xyz`
+See `.env.example` for all required variables.
+
+| Variable            | Description                            |
+| ------------------- | -------------------------------------- |
+| `DATABASE_URL`      | PostgreSQL connection string           |
+| `HELIUS_API_KEY`    | Helius RPC API key for Solana          |
+| `HELIUS_CLUSTER`    | `mainnet-beta` or `devnet`             |
+| `INSURANCE_API_URL` | Base URL of the insurance provider API |
+| `INSURANCE_API_KEY` | API key for the insurance provider     |
+| `SECRET_KEY`        | App secret (JWT signing, future auth)  |
+
+---
+
+## Running Tests
+
+```bash
+cd backend
+pytest app/tests/ -v
+```
+
+---
+
+## Maintainers
+
+- **Enoch Philip** Lead Developer
+  [GitHub](https://github.com/arhyel24) [Twitter](https://twitter.com/arhyel24)
+
+---
+
+## Contact
+
+iris@projectiris.xyz

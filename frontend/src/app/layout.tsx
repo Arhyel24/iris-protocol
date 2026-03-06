@@ -1,97 +1,60 @@
-import type { Metadata } from "next";
-// import { Geist, Geist_Mono } from "next/font/google";
+﻿import type { Metadata } from "next";
 import "./globals.css";
+import "@solana/wallet-adapter-react-ui/styles.css";
 import { AppProviders } from "@/components/app-providers";
-
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
+import { Navbar } from "@/components/Navbar";
+import { SiteFooter } from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: {
-    default: "IRIS - AI-Powered Risk Protection for Solana DeFi",
+    default: "IRIS Protocol  Real-World Insurance on Solana",
     template: "%s | IRIS Protocol",
   },
   description:
-    "Protect your crypto portfolio on Solana with AI-powered wallet risk scores and automated insurance. IRIS gives you real-time risk detection, protection suggestions, and on-chain claim execution.",
-  applicationName: "IRIS DeFi Insurance",
+    "IRIS is the settlement layer for Real-World Insurance APIs. Pay premiums on-chain, receive payouts via Solana escrow.",
+  applicationName: "IRIS Protocol",
   keywords: [
-    "DeFi Insurance",
-    "Solana Risk Engine",
-    "AI Crypto Protection",
-    "Wallet Risk Score",
-    "IRIS Solana",
-    "Crypto Portfolio Insurance",
-    "Blockchain Risk Management",
-    "Real-Time Token Risk",
+    "IRIS Protocol",
+    "Solana Insurance",
+    "On-Chain Insurance",
+    "Real World Insurance",
+    "Crypto Insurance",
   ],
-  authors: [
-    { name: "IRIS Team" },
-    { name: "IRIS", url: "https://irisdefi.xyz" },
-  ],
+  authors: [{ name: "IRIS Labs" }],
   creator: "IRIS Labs",
   publisher: "IRIS Labs",
-  metadataBase: new URL("https://irisdefi.xyz"),
+  metadataBase: new URL("https://irisprotocol.xyz"),
   openGraph: {
-    title: "IRIS – AI-Powered DeFi Insurance on Solana",
-    description:
-      "Get real-time protection from volatility, rug pulls, and whale risks with AI-driven wallet scoring and automated insurance.",
-    url: "https://irisdefi.xyz",
-    siteName: "IRIS DeFi Insurance",
+    title: "IRIS Protocol  Real-World Insurance on Solana",
+    description: "Pay premiums on-chain. Receive payouts via Solana escrow.",
+    url: "https://irisprotocol.xyz",
+    siteName: "IRIS Protocol",
     locale: "en_US",
     type: "website",
-    images: [
-      {
-        url: "https://irisdefi.xyz/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "IRIS – AI-Powered DeFi Insurance",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "IRIS – AI-Powered DeFi Insurance on Solana",
-    description:
-      "Protect your portfolio with AI-driven risk scores and insurance automation. Built for Solana.",
-    site: "@irisdefi",
-    creator: "@irisdefi",
-    images: ["https://irisdefi.xyz/og-image.jpg"],
+    title: "IRIS Protocol  Real-World Insurance on Solana",
+    description: "The settlement layer for real-world insurance on Solana.",
+    site: "@irisprotocol",
   },
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-32x32.png",
-    apple: "/apple-touch-icon.png",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-snippet": -1,
-      "max-image-preview": "large",
-      "max-video-preview": -1,
-    },
-  },
-  category: "Finance",
+  icons: { icon: "/favicon.ico" },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <body className={`antialiased`}>
-        <AppProviders> {children}</AppProviders>
+    <html lang="en" suppressHydrationWarning>
+      <body className="min-h-screen bg-black text-white font-mono antialiased">
+        <AppProviders>
+          <Navbar />
+          <main>{children}</main>
+          <SiteFooter />
+        </AppProviders>
       </body>
     </html>
   );

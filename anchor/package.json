@@ -1,0 +1,27 @@
+{
+  "name": "iris-anchor-tests",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "anchor test",
+    "test:localnet": "anchor test --provider.cluster localnet",
+    "init:treasury": "npx tsx scripts/initialize-treasury.ts",
+    "deploy:devnet": "anchor deploy --provider.cluster devnet && npx tsx scripts/initialize-treasury.ts"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.30.1",
+    "@solana/spl-token": "^0.4.9",
+    "@solana/web3.js": "^1.95.8"
+  },
+  "devDependencies": {
+    "@types/bn.js": "^5.1.6",
+    "@types/chai": "^4.3.20",
+    "@types/mocha": "^10.0.10",
+    "chai": "^4.5.0",
+    "mocha": "^10.8.2",
+    "ts-mocha": "^10.0.0",
+    "ts-node": "10",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.3"
+  }
+}

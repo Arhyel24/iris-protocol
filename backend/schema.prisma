@@ -8,47 +8,137 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(uuid())
-  wallet    String   @unique
-  email     String?  @unique
-  role      String   @default("user")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  policies  Policy[]
-  quotes    Quote[]
-}
-
+// ─── Waitlist ──────────────────────────────────────────────────────────────────
 model Waitlist {
   id        String   @id @default(uuid())
   email     String   @unique
-  status    String   @default("pending")
-  createdAt DateTime @default(now())
-}
-
-model Policy {
-  id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  type      String
-  status    String   @default("active")
-  premium   Float
-  coverage  Float
-  startDate DateTime @default(now())
-  endDate   DateTime
+  wallet    String   @unique             // Solana wallet public key — one wallet per entry
+  status    String   @default("pending") // pending | invited | onboarded
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+// ─── Users ────────────────────────────────────────────────────────────────────
+model User {
+  id             String    @id @default(uuid())
+  wallet         String    @unique             // Solana wallet public key
+  email          String?   @unique
+  role           String    @default("user")    // user | admin
+  nonce          String?                       // challenge nonce for wallet-sign auth
+  nonceExpiresAt DateTime?                     // nonce TTL (5 min)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  quotes    Quote[]
+  policies  Policy[]
+}
+
+// ─── Quotes ───────────────────────────────────────────────────────────────────
+// A quote is fetched from the insurance provider API before the user pays.
 model Quote {
-  id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  type      String
-  premium   Float
-  coverage  Float
-  details   Json?
-  status    String   @default("pending")
-  createdAt DateTime @default(now())
+  id              String    @id @default(uuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id])
+  productType     String                         // e.g. "flight", "gadget", "travel"
+  coverageAmount  Float                          // USDC value of coverage
+  premiumAmount   Float                          // USDC amount the user must pay
+  currency        String    @default("USDC")
+  details         Json?                          // raw response from insurance API
+  insuranceRef    String?                        // external quote ID from provider
+  status          String    @default("pending")  // pending | accepted | expired
+  expiresAt       DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  policy          Policy?
+}
+
+// ─── Policies ─────────────────────────────────────────────────────────────────
+// A policy is created once the on-chain premium is confirmed.
+model Policy {
+  id              String    @id @default(uuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id])
+  quoteId         String    @unique
+  quote           Quote     @relation(fields: [quoteId], references: [id])
+  productType     String
+  coverageAmount  Float
+  premiumAmount   Float                          // total premium over full term
+  monthlyPremium  Float     @default(0)          // per-month USDC amount
+  durationMonths  Int       @default(12)         // number of recurring payments
+  currency        String    @default("USDC")
+  status          String    @default("active")   // active | expired | cancelled | claimed
+  startDate       DateTime  @default(now())
+  endDate         DateTime
+  // On-chain fields
+  premiumTxHash   String?                        // Solana tx hash of first payment
+  escrowAccount   String?                        // PolicyState PDA address
+  paymentsCount   Int       @default(1)          // payments collected so far (starts at 1)
+  nextPaymentDue  DateTime?                      // when oracle should collect next payment
+  // Insurance provider fields
+  insuranceRef    String?                        // external policy ID from provider
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  claims           Claim[]
+  premiumPayments  PremiumPayment[]
+}
+
+// ─── Premium Payments ─────────────────────────────────────────────────────────
+// Mirrors each on-chain PremiumRecord; stored for fast querying.
+model PremiumPayment {
+  id             String   @id @default(uuid())
+  policyId       String
+  policy         Policy   @relation(fields: [policyId], references: [id])
+  paymentIndex   Int                           // 0-based, matches on-chain index
+  amount         Float                         // USDC
+  txHash         String?                       // Solana transaction signature
+  status         String   @default("paid")     // paid | failed
+  failureReason  String?                       // set if status = failed
+  paidAt         DateTime @default(now())
+  createdAt      DateTime @default(now())
+}
+
+// ─── Claims ───────────────────────────────────────────────────────────────────
+// A claim is filed against an active policy.
+model Claim {
+  id             String    @id @default(uuid())
+  policyId       String
+  policy         Policy    @relation(fields: [policyId], references: [id])
+  status         String    @default("pending") // pending | approved | rejected | paid
+  description    String
+  incidentDate   DateTime
+  proofHash      String?                      // IPFS hash or on-chain proof
+  payoutAmount   Float?
+  payoutTxHash   String?                      // Solana tx hash of the escrow release
+  reviewedAt     DateTime?
+  reviewNote     String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+// ─── Admin OTP ────────────────────────────────────────────────────────────────
+// One-time passwords emailed to admins before portal access.
+model AdminOTP {
+  id         String   @id @default(uuid())
+  email      String                         // admin's email address
+  wallet     String                         // admin's wallet (for linking)
+  code       String                         // 6-digit code
+  used       Boolean  @default(false)
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+}
+
+// ─── Activity Log ─────────────────────────────────────────────────────────────
+// Immutable audit trail of all significant protocol actions.
+model ActivityLog {
+  id         String   @id @default(uuid())
+  actor      String                         // wallet address or "system"
+  actorRole  String   @default("user")      // user | admin | system
+  action     String                         // e.g. "policy.created", "claim.approved"
+  targetId   String?                        // policy ID, claim ID, user ID, etc.
+  targetType String?                        // "policy" | "claim" | "user"
+  metadata   Json?                          // extra context (amounts, old/new status, tx)
+  ipAddress  String?
+  createdAt  DateTime @default(now())
 }

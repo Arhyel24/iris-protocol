@@ -6,45 +6,49 @@ const techStack = [
     tag: 'LAYER_01',
     title: 'Solana Smart Contracts',
     description:
-      'Lightning-fast transaction processing and low fees enable real-time protective actions when every second counts.',
+      'Anchor programs handle premium collection, escrow locking, and trustless payout release at sub-second speed.',
   },
   {
     tag: 'LAYER_02',
-    title: 'Python AI Risk Model',
+    title: 'Real-World Insurance API Layer',
     description:
-      'State-of-the-art machine learning trained on historical crash data, social signals, and whale patterns.',
+      'A standardized adapter layer that connects any external insurance provider API to the IRIS settlement contracts.',
   },
   {
     tag: 'LAYER_03',
-    title: 'Data Oracles & Whale Trackers',
+    title: 'Escrow Settlement Engine',
     description:
-      'Real-time feeds from Pyth Network and proprietary whale tracking algorithms provide early warning indicators.',
+      'Funds are held in on-chain escrow and released automatically when a claim event is validated by the API.',
   },
   {
     tag: 'LAYER_04',
-    title: 'NFT-Based Insurance Protocol',
-    description: 'Revolutionary tokenized insurance policies backed by smart contracts for instant claim resolution.',
+    title: 'On-Chain Audit Trail',
+    description:
+      'Every premium payment and payout is recorded immutably on Solana — full transparency for all parties.',
   },
 ]
 
 const useCases = [
   {
     id: '1',
-    badge: 'HIGH VOLATILITY PROTECTION',
-    title: 'DeFi Degens',
-    description: 'High-risk traders who need a safety net when experimenting with new protocols and tokens.',
+    badge: 'ON-CHAIN PREMIUMS',
+    title: 'Policyholders',
+    description:
+      'Individuals who want to pay real-world insurance premiums on-chain and receive payouts without intermediaries.',
   },
   {
     id: '2',
-    badge: 'RUGPULL DETECTION',
-    title: 'Retail Altcoin Holders',
-    description: 'Everyday crypto users who want to protect their investments from sudden market downturns.',
+    badge: 'API INTEGRATION',
+    title: 'Insurance Providers',
+    description:
+      'InsurTech companies and traditional insurers who want to settle claims on Solana via the IRIS API layer.',
   },
   {
     id: '3',
     badge: 'COMING SOON',
-    title: 'Protocol Integrations',
-    description: 'DeFi platforms that want to offer built-in asset protection to their users.',
+    title: 'Protocol Builders',
+    description:
+      'DeFi protocols and fintech teams who want to embed real-world insurance settlement into their products.',
   },
 ]
 

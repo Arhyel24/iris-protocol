@@ -2,10 +2,10 @@ import { Activity, AlarmClock, Lock, Shield } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 const events = [
-  { icon: Activity, label: 'WHALE_MVMT_DETECTED', text: 'IRIS identifies suspicious token movement' },
-  { icon: AlarmClock, label: 'RISK_ALGO_TRIGGER', text: 'Risk assessment algorithm triggers alert' },
-  { icon: Lock, label: 'AUTO_SWAP_EXEC', text: 'Automatic swap to stablecoin before price impact' },
-  { icon: Shield, label: 'INS_CLAIM_INIT', text: 'NFT insurance claim triggered to cover any losses' },
+  { icon: Activity, label: 'API_CLAIM_RECEIVED', text: 'Real-world insurance API submits a validated claim event' },
+  { icon: AlarmClock, label: 'ESCROW_CLAIM_VERIFIED', text: 'IRIS smart contract verifies claim against policy terms' },
+  { icon: Lock, label: 'PAYOUT_UNLOCKED', text: 'Escrow releases funds to the policyholder wallet' },
+  { icon: Shield, label: 'SETTLEMENT_CONFIRMED', text: 'On-chain settlement record finalized on Solana' },
 ]
 
 export const DemoSection = () => {
@@ -74,7 +74,7 @@ export const DemoSection = () => {
                 </div>
               </div>
               <p className="font-mono text-xs text-[#00FFA3]/60 uppercase tracking-widest">
-                // WATCH: TOKEN_CRASH_SCENARIO
+                // WATCH: CLAIM_SETTLEMENT_FLOW
               </p>
             </div>
           </motion.div>
@@ -88,14 +88,14 @@ export const DemoSection = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <span className="font-mono text-[9px] text-[#00FFA3]/50 uppercase tracking-widest mb-3 block">
-              // CRASH_PROTECTION_DEMO
+              // CLAIM_SETTLEMENT_DEMO
             </span>
             <h3 className="font-mono text-xl font-black uppercase tracking-wider text-white mb-4">
-              Protecting Against Token Crash
+              End-to-End Claim Settlement
             </h3>
             <p className="font-mono text-xs text-white/50 mb-8 leading-relaxed">
-              Watch as IRIS detects unusual whale movement on a token pair and takes immediate action to protect the
-              user&apos;s assets:
+              Watch how IRIS receives a claim from a real-world insurance API and settles the payout to the
+              policyholder&apos;s wallet via escrow in seconds:
             </p>
 
             {/* Event log */}
@@ -137,16 +137,18 @@ export const DemoSection = () => {
             <div className="border border-white/10 p-6 relative">
               <div className="absolute top-0 left-0 w-1 h-full bg-[#00FFA3]" />
               <p className="font-mono text-xs italic text-white/60 mb-4 leading-relaxed">
-                &ldquo;IRIS saved me 70% of my portfolio when $MEME crashed. The AI detected the dump pattern before I
-                even saw the price move.&rdquo;
+                &ldquo;Our travel insurance provider integrated with IRIS in a weekend. Premiums are settled on-chain
+                and payouts hit customer wallets before they even land at the airport.&rdquo;
               </p>
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 border border-[#00FFA3]/40 flex items-center justify-center">
-                  <span className="font-mono text-[10px] text-[#00FFA3] font-bold">JD</span>
+                  <span className="font-mono text-[10px] text-[#00FFA3] font-bold">AK</span>
                 </div>
                 <div>
-                  <p className="font-mono text-xs font-bold uppercase tracking-wider text-white">John Defi</p>
-                  <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest">Early Beta Tester</p>
+                  <p className="font-mono text-xs font-bold uppercase tracking-wider text-white">Amir Kowalski</p>
+                  <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest">
+                    InsurTech Integration Partner
+                  </p>
                 </div>
               </div>
             </div>
